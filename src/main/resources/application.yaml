@@ -8,9 +8,10 @@ spring:
     url: "jdbc:mysql://localhost:3306/identity_service"
     username: "root"
     password: "root"
-#  jpa:
-#    hibernate:
-#      ddl-auto: update  # Options: validate, update, create, create-drop
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQLDialect
+  jpa:
+    hibernate:
+      ddl-auto: update  # Options: validate, update, create, create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true

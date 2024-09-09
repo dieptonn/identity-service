@@ -1,42 +1,14 @@
-package com.diepton.indentity_service.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+package com.diepton.indentity_service.dto.request;
 
 import java.time.LocalDate;
 
-@Entity
-public class User {
+public class UserCreationRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private LocalDate dayOfBirth;
-
-    public User() {
-    }
-
-    public User(String username, String password, String firstName, String lastName, LocalDate dayOfBirth) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dayOfBirth = dayOfBirth;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
