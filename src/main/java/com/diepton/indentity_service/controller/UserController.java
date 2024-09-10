@@ -4,6 +4,7 @@ import com.diepton.indentity_service.dto.request.UserCreationRequest;
 import com.diepton.indentity_service.dto.request.UserUpdateRequest;
 import com.diepton.indentity_service.entity.User;
 import com.diepton.indentity_service.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    User createUser(@RequestBody UserCreationRequest request) {
+    User createUser(@RequestBody @Valid UserCreationRequest request) {
         return userService.createUser(request);
     }
 
@@ -32,7 +33,13 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    User updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+    User updateUser(@PathVariable String userId, @RequestBody @Valid UserUpdateRequest request) {
         return userService.updateUser(userId, request);
+    }
+
+    @DeleteMapping("/{userId}")
+    String deleteUser(@PathVariable String userId) {
+        userService.deleteUser(userId);
+        return "User deleted";
     }
 }

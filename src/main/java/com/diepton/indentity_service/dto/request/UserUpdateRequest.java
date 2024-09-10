@@ -1,21 +1,14 @@
 package com.diepton.indentity_service.dto.request;
 
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class UserUpdateRequest {
 
-    private String password;
     private String firstName;
     private String lastName;
     private LocalDate dayOfBirth;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getFirstName() {
         return firstName;

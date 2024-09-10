@@ -20,6 +20,11 @@ public class UserService {
     }
 
     public User createUser(UserCreationRequest request) {
+
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new RuntimeException("Username already exists");
+        }
+
         User user = new User(request.getUsername(), request.getPassword(), request.getFirstName(), request.getLastName(), request.getDayOfBirth());
         return userRepository.save(user);
     }
@@ -29,11 +34,17 @@ public class UserService {
     }
 
     public User updateUser(String userId, UserUpdateRequest request) {
+
         User user = getUser(userId);
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setDayOfBirth(request.getDayOfBirth());
 
         return userRepository.save(user);
+    }
+
+    public void deleteUser(String userId) {
+        User user = getUser(userId);
+        userRepository.deleteById(userId);
     }
 }
