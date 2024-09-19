@@ -1,5 +1,6 @@
 package com.diepton.indentity_service.controller;
 
+import com.diepton.indentity_service.dto.request.ApiResponse;
 import com.diepton.indentity_service.dto.request.UserCreationRequest;
 import com.diepton.indentity_service.dto.request.UserUpdateRequest;
 import com.diepton.indentity_service.entity.User;
@@ -23,8 +24,10 @@ public class UserController {
     }
 
     @PostMapping
-    User createUser(@RequestBody @Valid UserCreationRequest request) {
-        return userService.createUser(request);
+    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.createUser(request));
+        return apiResponse;
     }
 
     @GetMapping("/{userId}")
