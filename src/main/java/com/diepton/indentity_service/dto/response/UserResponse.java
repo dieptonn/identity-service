@@ -1,6 +1,6 @@
-package com.diepton.indentity_service.dto.request;
+package com.diepton.indentity_service.dto.response;
 
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,12 +11,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreationRequest {
-    
-    @Size(min = 3, message = "Msg_003")
+public class UserResponse {
+
+    @JsonIgnore // @JsonIgnore (ignore id in api) = @Mapping(target = "id", ignore = true) in UserMapper (no mapping id)
+    String id;
+
     String username;
-    @Size(min = 6, message = "Msg_004")
-    String password;
     String firstName;
     String lastName;
     LocalDate dayOfBirth;

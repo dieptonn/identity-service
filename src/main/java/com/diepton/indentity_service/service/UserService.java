@@ -2,51 +2,63 @@ package com.diepton.indentity_service.service;
 
 import com.diepton.indentity_service.dto.request.UserCreationRequest;
 import com.diepton.indentity_service.dto.request.UserUpdateRequest;
+import com.diepton.indentity_service.dto.response.UserResponse;
 import com.diepton.indentity_service.entity.User;
 import com.diepton.indentity_service.exception.BusinessException;
 import com.diepton.indentity_service.exception.ErrorCode;
+import com.diepton.indentity_service.mapper.UserMapper;
 import com.diepton.indentity_service.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserMapper userMapper;
 
     public List<User> getUsers() {
+
         return userRepository.findAll();
     }
 
-    public User createUser(UserCreationRequest request) {
+    public UserResponse createUser(UserCreationRequest request) {
 
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new BusinessException(ErrorCode.Msg_002);
         }
+        User user = userMapper.toUser(request);
 
-        User user = new User(request.getUsername(), request.getPassword(), request.getFirstName(), request.getLastName(), request.getDayOfBirth());
-        return userRepository.save(user);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    public User getUser(String userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
+    public UserResponse getUser(String userId) {
+
+        return userMapper.toUserResponse(findUser(userId));
     }
 
-    public User updateUser(String userId, UserUpdateRequest request) {
+    public UserResponse updateUser(String userId, UserUpdateRequest request) {
 
-        User user = getUser(userId);
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setDayOfBirth(request.getDayOfBirth());
+        User user = findUser(userId);
+        userMapper.updateUser(user, request);
 
-        return userRepository.save(user);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     public void deleteUser(String userId) {
-        User user = getUser(userId);
+
+        User user = findUser(userId);
         userRepository.deleteById(userId);
+    }
+
+    public User findUser(String userId) {
+
+        return userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
     }
 }

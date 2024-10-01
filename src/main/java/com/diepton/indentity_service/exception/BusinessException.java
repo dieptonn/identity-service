@@ -1,19 +1,17 @@
 package com.diepton.indentity_service.exception;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BusinessException extends RuntimeException {
 
-    private ErrorCode errorCode;
+    final ErrorCode errorCode;
 
     public BusinessException(ErrorCode errorCode) {
         super(errorCode.getErrorMessage());
-        this.errorCode = errorCode;
-    }
-
-    public ErrorCode getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(ErrorCode errorCode) {
         this.errorCode = errorCode;
     }
 }
