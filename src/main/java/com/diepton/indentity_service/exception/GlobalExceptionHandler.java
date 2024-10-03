@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
         try {
             errorCode = ErrorCode.valueOf(enumKey);
         } catch (IllegalArgumentException error) {
-
+            //
         }
 
         ApiResponse apiResponse = new ApiResponse();

@@ -7,17 +7,22 @@ import com.diepton.indentity_service.dto.response.UserResponse;
 import com.diepton.indentity_service.entity.User;
 import com.diepton.indentity_service.service.UserService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/api/v1/user")
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @GetMapping
     ApiResponse<List<User>> getUsers() {
