@@ -14,7 +14,8 @@ public enum ErrorCode {
     Msg_003(400, "Username must be at least 3 characters"),
     Msg_004(400, "Password must be at least 6 characters"),
     Msg_005(400, "User not found"),
-    Msg_006(400, "User is not exist");
+    Msg_006(400, "User is not exist"),
+    Msg_007(400, "Unauthenticated");
 
     final int errorCode;
     final String errorMessage;

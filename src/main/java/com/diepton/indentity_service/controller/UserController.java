@@ -28,7 +28,7 @@ public class UserController {
     ApiResponse<List<User>> getUsers() {
 
         ApiResponse<List<User>> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.getUsers());
+        apiResponse.setData(userService.getUsers());
 
         return apiResponse;
     }
@@ -38,7 +38,7 @@ public class UserController {
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
 
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.createUser(request));
+        apiResponse.setData(userService.createUser(request));
 
         return apiResponse;
     }
@@ -47,7 +47,7 @@ public class UserController {
     ApiResponse<UserResponse> getUser(@PathVariable String userId) {
 
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.getUser(userId));
+        apiResponse.setData(userService.getUser(userId));
 
         return apiResponse;
     }
@@ -56,7 +56,7 @@ public class UserController {
     ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody @Valid UserUpdateRequest request) {
 
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.updateUser(userId, request));
+        apiResponse.setData(userService.updateUser(userId, request));
 
         return apiResponse;
     }

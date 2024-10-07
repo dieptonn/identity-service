@@ -16,5 +16,5 @@ public class ApiResponse<Type> {
     int statusCode = 200;
     
     String message;
-    Type result;
+    Type data;
 }
