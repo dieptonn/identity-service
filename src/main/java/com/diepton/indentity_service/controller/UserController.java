@@ -8,24 +8,32 @@ import com.diepton.indentity_service.entity.User;
 import com.diepton.indentity_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Builder
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    @Autowired
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     UserService userService;
 
     @GetMapping
     ApiResponse<List<User>> getUsers() {
+
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username: {}", authentication.getName());
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
         ApiResponse<List<User>> apiResponse = new ApiResponse<>();
         apiResponse.setData(userService.getUsers());

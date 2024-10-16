@@ -4,26 +4,28 @@ import com.diepton.indentity_service.dto.request.UserCreationRequest;
 import com.diepton.indentity_service.dto.request.UserUpdateRequest;
 import com.diepton.indentity_service.dto.response.UserResponse;
 import com.diepton.indentity_service.entity.User;
+import com.diepton.indentity_service.enums.Role;
 import com.diepton.indentity_service.exception.BusinessException;
 import com.diepton.indentity_service.exception.ErrorCode;
 import com.diepton.indentity_service.mapper.UserMapper;
 import com.diepton.indentity_service.repository.UserRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserMapper userMapper;
+    UserRepository userRepository;
+    UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
 
     public List<User> getUsers() {
 
@@ -37,8 +39,11 @@ public class UserService {
         }
         User user = userMapper.toUser(request);
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.USER.name());
+        user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

@@ -1,9 +1,11 @@
 package com.diepton.indentity_service.dto.response;
 
+import jakarta.persistence.ElementCollection;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -16,8 +18,10 @@ public class UserResponse {
     String id;
 
     String username;
-    String password;
     String firstName;
     String lastName;
     LocalDate dayOfBirth;
+
+    @ElementCollection
+    Set<String> roles;
 }
