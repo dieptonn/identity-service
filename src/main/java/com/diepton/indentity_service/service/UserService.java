@@ -12,12 +12,17 @@ import com.diepton.indentity_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -27,8 +32,10 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     public List<User> getUsers() {
 
+        log.info("In method getUsers()");
         return userRepository.findAll();
     }
 
@@ -48,6 +55,7 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
+    @PostAuthorize("returnObject.username == authentication.name") //takes effect after the method is executed
     public UserResponse getUser(String userId) {
 
         return userMapper.toUserResponse(findUser(userId));
@@ -70,5 +78,14 @@ public class UserService {
     public User findUser(String userId) {
 
         return userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
+    }
+
+    public UserResponse getMyInfo() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        User user = userRepository.findByUsername(name).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
+
+        return userMapper.toUserResponse(user);
     }
 }
