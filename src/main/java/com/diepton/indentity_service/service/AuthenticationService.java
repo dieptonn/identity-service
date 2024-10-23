@@ -60,13 +60,13 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
-        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new BusinessException(ErrorCode.Msg_006));
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
         boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!isAuthenticated) {
-            throw new BusinessException(ErrorCode.Msg_007);
+            throw new BusinessException(ErrorCode.Msg_006);
         }
 
         var token = generateToken(user);
@@ -104,7 +104,7 @@ public class AuthenticationService {
     }
 
     private String buildScope(User user) {
-        
+
         StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles())) {
             user.getRoles().forEach(stringJoiner::add);

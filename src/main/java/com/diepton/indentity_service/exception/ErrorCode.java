@@ -1,27 +1,27 @@
 package com.diepton.indentity_service.exception;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
 @Getter
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum ErrorCode {
 
-    Msg_000(500, "Invalid message key"),
-    Msg_001(400, "Uncategorized Exception"),
-    Msg_002(400, "User already exist"),
-    Msg_003(400, "Username must be at least 3 characters"),
-    Msg_004(400, "Password must be at least 6 characters"),
-    Msg_005(400, "User not found"),
-    Msg_006(400, "User is not exist"),
-    Msg_007(400, "Unauthenticated");
+    Msg_001(400, "Invalid message key", HttpStatus.BAD_REQUEST),
+    Msg_000(500, "Uncategorized Exception", HttpStatus.INTERNAL_SERVER_ERROR),
+    Msg_002(400, "User already exist", HttpStatus.BAD_REQUEST),
+    Msg_003(400, "Username must be at least 3 characters", HttpStatus.BAD_REQUEST),
+    Msg_004(400, "Password must be at least 6 characters", HttpStatus.BAD_REQUEST),
+    Msg_005(404, "User not found", HttpStatus.NOT_FOUND),
+    Msg_006(401, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+    Msg_007(403, "You do not have permission", HttpStatus.FORBIDDEN);
 
-    final int errorCode;
-    final String errorMessage;
-
-    ErrorCode(int errorCode, String errorMessage) {
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-    }
+    int errorCode;
+    String errorMessage;
+    HttpStatusCode httpStatusCode;
 }
