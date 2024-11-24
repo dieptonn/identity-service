@@ -50,7 +50,7 @@ public class UserService {
 
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-        user.setRoles(roles);
+//        user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -71,7 +71,7 @@ public class UserService {
 
     public void deleteUser(String userId) {
 
-        User user = findUser(userId);
+        findUser(userId);
         userRepository.deleteById(userId);
     }
 

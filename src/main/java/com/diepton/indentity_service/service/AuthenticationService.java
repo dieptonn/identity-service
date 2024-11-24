@@ -83,7 +83,7 @@ public class AuthenticationService {
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
-                .issuer("diepton.com")
+                .issuer("identity-07.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
@@ -107,7 +107,7 @@ public class AuthenticationService {
 
         StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles())) {
-            user.getRoles().forEach(stringJoiner::add);
+//            user.getRoles().forEach(stringJoiner::add);
         }
 
         return stringJoiner.toString();

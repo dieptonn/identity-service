@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);

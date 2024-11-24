@@ -1,5 +1,6 @@
 package com.diepton.indentity_service.dto.response;
 
+import com.diepton.indentity_service.entity.Role;
 import jakarta.persistence.ElementCollection;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,5 +24,5 @@ public class UserResponse {
     LocalDate dayOfBirth;
 
     @ElementCollection
-    Set<String> roles;
+    Set<Role> roles;
 }

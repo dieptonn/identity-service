@@ -21,7 +21,7 @@ public enum ErrorCode {
     Msg_006(401, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     Msg_007(403, "You do not have permission", HttpStatus.FORBIDDEN);
 
-    int errorCode;
-    String errorMessage;
-    HttpStatusCode httpStatusCode;
+    final int errorCode;
+    final String errorMessage;
+    final HttpStatusCode httpStatusCode;
 }
