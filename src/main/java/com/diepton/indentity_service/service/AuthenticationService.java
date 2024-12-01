@@ -63,8 +63,8 @@ public class AuthenticationService {
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-
         boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
+
         if (!isAuthenticated) {
             throw new BusinessException(ErrorCode.Msg_006);
         }
@@ -107,7 +107,14 @@ public class AuthenticationService {
 
         StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles())) {
-//            user.getRoles().forEach(stringJoiner::add);
+            user.getRoles().forEach(role -> {
+                stringJoiner.add("ROLE_" + role.getName());
+                if (!CollectionUtils.isEmpty(role.getPermissions())) {
+                    role.getPermissions().forEach(permission -> {
+                        stringJoiner.add(permission.getName());
+                    });
+                }
+            });
         }
 
         return stringJoiner.toString();

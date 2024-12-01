@@ -8,6 +8,7 @@ import com.diepton.indentity_service.enums.Role;
 import com.diepton.indentity_service.exception.BusinessException;
 import com.diepton.indentity_service.exception.ErrorCode;
 import com.diepton.indentity_service.mapper.UserMapper;
+import com.diepton.indentity_service.repository.RoleRepository;
 import com.diepton.indentity_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,9 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN')")
     public List<User> getUsers() {
 
         log.info("In method getUsers()");
@@ -50,7 +52,7 @@ public class UserService {
 
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-//        user.setRoles(roles);
+//       user.setRoles(new HashSet<>(roles));
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -65,6 +67,10 @@ public class UserService {
 
         User user = findUser(userId);
         userMapper.updateUser(user, request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

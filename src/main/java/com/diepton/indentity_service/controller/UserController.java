@@ -11,13 +11,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Builder
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +25,6 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     UserService userService;
 
     @GetMapping
@@ -35,29 +34,26 @@ public class UserController {
         log.info("Username: {}", authentication.getName());
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
-        ApiResponse<List<User>> apiResponse = new ApiResponse<>();
-        apiResponse.setData(userService.getUsers());
-
-        return apiResponse;
+        return ApiResponse.<List<User>>builder()
+                .data(userService.getUsers())
+                .build();
     }
 
 
     @PostMapping
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
 
-        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setData(userService.createUser(request));
-
-        return apiResponse;
+        return ApiResponse.<UserResponse>builder()
+                .data(userService.createUser(request))
+                .build();
     }
 
     @GetMapping("/{userId}")
     ApiResponse<UserResponse> getUser(@PathVariable String userId) {
 
-        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setData(userService.getUser(userId));
-
-        return apiResponse;
+        return ApiResponse.<UserResponse>builder()
+                .data(userService.getUser(userId))
+                .build();
     }
 
     @GetMapping("/info")
@@ -71,10 +67,9 @@ public class UserController {
     @PutMapping("/{userId}")
     ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody @Valid UserUpdateRequest request) {
 
-        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setData(userService.updateUser(userId, request));
-
-        return apiResponse;
+        return ApiResponse.<UserResponse>builder()
+                .data(userService.updateUser(userId, request))
+                .build();
     }
 
     @DeleteMapping("/{userId}")
