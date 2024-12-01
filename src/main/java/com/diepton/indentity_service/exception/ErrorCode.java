@@ -19,7 +19,8 @@ public enum ErrorCode {
     Msg_004(400, "Password must be at least 6 characters", HttpStatus.BAD_REQUEST),
     Msg_005(404, "User not found", HttpStatus.NOT_FOUND),
     Msg_006(401, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    Msg_007(403, "You do not have permission", HttpStatus.FORBIDDEN);
+    Msg_007(403, "You do not have permission", HttpStatus.FORBIDDEN),
+    Msg_008(400, "Invalid date of birth", HttpStatus.BAD_REQUEST);
 
     final int errorCode;
     final String errorMessage;
