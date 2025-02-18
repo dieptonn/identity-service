@@ -44,7 +44,7 @@ public class UserService {
     public UserResponse createUser(UserCreationRequest request) {
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new BusinessException(ErrorCode.Msg_002);
+            throw new BusinessException(ErrorCode.USER_EXISTED);
         }
         User user = userMapper.toUser(request);
 
@@ -83,14 +83,14 @@ public class UserService {
 
     public User findUser(String userId) {
 
-        return userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
+        return userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTED));
     }
 
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
-        User user = userRepository.findByUsername(name).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
+        User user = userRepository.findByUsername(name).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTED));
 
         return userMapper.toUserResponse(user);
     }

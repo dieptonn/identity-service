@@ -12,15 +12,15 @@ import org.springframework.http.HttpStatusCode;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum ErrorCode {
 
-    Msg_001(400, "Invalid message key", HttpStatus.BAD_REQUEST),
-    Msg_000(500, "Uncategorized Exception", HttpStatus.INTERNAL_SERVER_ERROR),
-    Msg_002(400, "User already exist", HttpStatus.BAD_REQUEST),
-    Msg_003(400, "Username must be at least 3 characters", HttpStatus.BAD_REQUEST),
-    Msg_004(400, "Password must be at least 6 characters", HttpStatus.BAD_REQUEST),
-    Msg_005(404, "User not found", HttpStatus.NOT_FOUND),
-    Msg_006(401, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    Msg_007(403, "You do not have permission", HttpStatus.FORBIDDEN),
-    Msg_008(400, "Invalid date of birth", HttpStatus.BAD_REQUEST);
+    INVALID_KEY(400, "Invalid message key", HttpStatus.BAD_REQUEST),
+    UNCATEGORIZED_EXCEPTION(500, "Uncategorized Exception", HttpStatus.INTERNAL_SERVER_ERROR),
+    USER_EXISTED(400, "User already exist", HttpStatus.BAD_REQUEST),
+    USERNAME_INVALID(400, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
+    INVALID_PASSWORD(400, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),
+    USER_NOT_EXISTED(404, "User not found", HttpStatus.NOT_FOUND),
+    UNAUTHENTICATED(401, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(403, "You do not have permission", HttpStatus.FORBIDDEN),
+    INVALID_DOB(400, "Your age must be at least {min}", HttpStatus.BAD_REQUEST);
 
     final int errorCode;
     final String errorMessage;

@@ -16,9 +16,9 @@ public class UserUpdateRequest {
 
     String firstName;
     String lastName;
-
-    @DoBConstraint(min = 18, message = "Msg_008")
-    LocalDate dayOfBirth;
     String password;
+
+    @DoBConstraint(min = 18, message = "INVALID_DOB")
+    LocalDate dayOfBirth;
     List<String> roles;
 }

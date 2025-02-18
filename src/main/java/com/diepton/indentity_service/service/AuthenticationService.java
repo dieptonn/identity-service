@@ -60,13 +60,13 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
-        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new BusinessException(ErrorCode.Msg_005));
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
         if (!isAuthenticated) {
-            throw new BusinessException(ErrorCode.Msg_006);
+            throw new BusinessException(ErrorCode.UNAUTHENTICATED);
         }
 
         var token = generateToken(user);
@@ -110,14 +110,11 @@ public class AuthenticationService {
             user.getRoles().forEach(role -> {
                 stringJoiner.add("ROLE_" + role.getName());
                 if (!CollectionUtils.isEmpty(role.getPermissions())) {
-                    role.getPermissions().forEach(permission -> {
-                        stringJoiner.add(permission.getName());
-                    });
+                    role.getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
                 }
             });
         }
 
         return stringJoiner.toString();
     }
-
 }
