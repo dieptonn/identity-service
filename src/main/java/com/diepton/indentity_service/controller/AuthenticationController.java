@@ -2,6 +2,7 @@ package com.diepton.indentity_service.controller;
 
 import com.diepton.indentity_service.dto.request.AuthenticationRequest;
 import com.diepton.indentity_service.dto.request.IntrospectRequest;
+import com.diepton.indentity_service.dto.request.LogoutRequest;
 import com.diepton.indentity_service.dto.response.ApiResponse;
 import com.diepton.indentity_service.dto.response.AuthenticationResponse;
 import com.diepton.indentity_service.dto.response.IntrospectResponse;
@@ -42,6 +43,14 @@ public class AuthenticationController {
 
         return ApiResponse.<IntrospectResponse>builder()
                 .data(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
+
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 }
